@@ -1,0 +1,17 @@
+/* Estilos globales y responsivos */
+:root { --primary: #2563eb; --bg: #f8fafc; --text: #0f172a; --card: #ffffff; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
+body { background-color: var(--bg); color: var(--text); }
+.container { max-width: 1200px; margin: 0 auto; padding: 1rem; }
+.navbar { background: var(--primary); color: white; padding: 1.5rem; text-align: center; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);}
+.grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+/* Responsividad: En pantallas grandes, divide en 2 columnas */
+@media (min-width: 768px) { .grid { grid-template-columns: 1fr 2fr; } }
+.card { background: var(--card); padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); margin-bottom: 1rem;}
+.form-group { margin-bottom: 1.5rem; }
+.form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+.form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 1rem;}
+.btn { background: var(--primary); color: white; border: none; padding: 0.75rem 1rem; border-radius: 4px; cursor: pointer; width: 100%; font-size: 1rem; font-weight: bold; transition: opacity 0.2s;}
+.btn:hover { opacity: 0.9; }
+.error { color: #dc2626; font-size: 0.875rem; margin-top: 0.5rem; }
+.badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 999px; font-size: 0.75rem; font-weight: bold; }

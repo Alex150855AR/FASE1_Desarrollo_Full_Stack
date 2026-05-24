@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { getProjects, createProject } from './services/api';
+import './App.css'; // Importamos el nuevo diseño
 
 function App() {
   const [projects, setProjects] = useState([]);
   const [newProjectName, setNewProjectName] = useState('');
 
-  // Efecto para cargar los proyectos al iniciar
   useEffect(() => {
     loadProjects();
   }, []);
@@ -21,42 +21,65 @@ function App() {
 
   const handleCreateProject = async (e) => {
     e.preventDefault();
-    if (!newProjectName) return;
+    if (!newProjectName.trim()) return;
     try {
-      await createProject({ name: newProjectName, category: 'Nueva Categoría', status: 'Pendiente' });
-      setNewProjectName(''); // Limpiar input
-      loadProjects(); // Recargar lista desde el backend
+      await createProject({ name: newProjectName, category: 'Desarrollo General', status: 'Pendiente' });
+      setNewProjectName('');
+      loadProjects();
     } catch (error) {
       console.error("Error al crear:", error);
     }
   };
 
-  return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-      <h1 style={{ color: '#0056b3' }}>🚀 TeamTask - Conectado al Backend</h1>
-      
-      <form onSubmit={handleCreateProject} style={{ marginBottom: '20px', padding: '15px', background: '#f4f4f4', borderRadius: '8px' }}>
-        <h3>Crear Nuevo Proyecto</h3>
-        <input 
-          type="text" 
-          value={newProjectName} 
-          onChange={(e) => setNewProjectName(e.target.value)} 
-          placeholder="Nombre del proyecto..." 
-          style={{ padding: '10px', marginRight: '10px', width: '250px' }}
-        />
-        <button type="submit" style={{ padding: '10px 15px', background: '#28a745', color: 'white', border: 'none', cursor: 'pointer' }}>
-          Guardar Proyecto
-        </button>
-      </form>
+  // Función para asignar colores al estado
+  const getStatusClass = (status) => {
+    const s = status.toLowerCase();
+    if (s === 'activo') return 'status-badge activo';
+    if (s === 'pendiente') return 'status-badge pendiente';
+    return 'status-badge default';
+  };
 
-      <h3>Lista de Proyectos (Desde Express.js)</h3>
-      <ul style={{ listStyleType: 'none', padding: 0 }}>
-        {projects.map(proj => (
-          <li key={proj.id} style={{ background: '#fff', border: '1px solid #ddd', margin: '5px 0', padding: '10px', borderRadius: '5px' }}>
-            <strong>{proj.name}</strong> - <em>{proj.category}</em> <span style={{ color: '#888', fontSize: '12px' }}>({proj.status})</span>
-          </li>
-        ))}
-      </ul>
+  return (
+    <div className="app-container">
+      <header className="header">
+        <div className="header-icon">📊</div>
+        <h1>TeamTask</h1>
+      </header>
+      
+      <main>
+        <section className="card">
+          <h3>Crear Nuevo Proyecto</h3>
+          <form onSubmit={handleCreateProject} className="form-group">
+            <input 
+              type="text" 
+              className="input-field"
+              value={newProjectName} 
+              onChange={(e) => setNewProjectName(e.target.value)} 
+              placeholder="Ej. Rediseño de la API..." 
+            />
+            <button type="submit" className="btn-primary">
+              Añadir Proyecto
+            </button>
+          </form>
+        </section>
+
+        <section>
+          <h2 className="section-title">Proyectos Recientes</h2>
+          <ul className="project-list">
+            {projects.map(proj => (
+              <li key={proj.id} className="project-item">
+                <div className="project-info">
+                  <h4>{proj.name}</h4>
+                  <p>{proj.category}</p>
+                </div>
+                <span className={getStatusClass(proj.status)}>
+                  {proj.status}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </main>
     </div>
   );
 }
